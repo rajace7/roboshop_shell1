@@ -2,10 +2,6 @@ script=$(realpath "$0")
 script_path=$(dirname "$script")
 source ${script_path}/common.sh
 
-echo ${script_path}
-
-exit
-
 
 echo -e "\e[36m>>>>>>>>>>>>>>> CONFIGURE NODE JS REPO >>>>>>>>>>>>\e[0m"
 curl -sL https://rpm.nodesource.com/setup_lts.x | bash
