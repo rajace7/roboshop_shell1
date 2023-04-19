@@ -1,3 +1,5 @@
+script_path=$(dirname $0)
+source ${script_path}/common.sh
 
 echo -e "\e[36m>>>>>>>>>>>>>>> COPY REPO FILE TO YUM.REPO.D >>>>>>>>>>>>\e[0m"
 cp mongod.repo /etc/yum.repos.d/mongod.repo

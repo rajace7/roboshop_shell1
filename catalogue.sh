@@ -38,7 +38,7 @@ echo -e "\e[36m>>>>>>>>>>>>>>> RESTART THE SERVICE >>>>>>>>>>>>\e[0m"
 systemctl start catalogue
 
 echo -e "\e[36m>>>>>>>>>>>>>>> COPY REPO FILE TO YUM.REPO.D >>>>>>>>>>>>\e[0m"
-cp /home/centos/roboshop_shell1/mongod.repo /etc/yum.repos.d/mongod.repo
+cp ${script_path}/mongod.repo /etc/yum.repos.d/mongod.repo
 
 echo -e "\e[36m>>>>>>>>>>>>>>> INSTALL MONGOD CLIENT >>>>>>>>>>>>\e[0m"
 yum install mongodb-org-shell -y

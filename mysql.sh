@@ -1,9 +1,11 @@
+script_path=$(dirname $0)
+source ${script_path}/common.sh
 
 echo -e "\e[36m>>>>>>>>>>>>>>> DISABLE MYSQL 8 >>>>>>>>>>>>\e[0m"
 dnf module disable mysql -y
 
 echo -e "\e[36m>>>>>>>>>>>>>>> COPY REPO FILE TO YUM.REPO.D >>>>>>>>>>>>\e[0m"
-cp /home/centos/roboshop_shell1/mysql.repo /etc/yum.repos.d/mysql.repo
+cp ${script_path}/mysql.repo /etc/yum.repos.d/mysql.repo
 
 echo -e "\e[36m>>>>>>>>>>>>>>> INSTALL MYSQL >>>>>>>>>>>>\e[0m"
 yum install mysql-community-server -y
