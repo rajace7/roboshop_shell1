@@ -29,5 +29,5 @@ yum install mongodb-org-shell -y
 
 mongo --host mongodb-dev.rpadaladevops.online </app/schema/user.js
 
-systemctl restart mongod
+
 systemctl restart user

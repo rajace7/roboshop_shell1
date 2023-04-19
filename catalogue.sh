@@ -28,4 +28,4 @@ yum install mongodb-org-shell -y
 
 mongo --host mongodb-dev.rpadaladevops.online </app/schema/catalogue.js
 
-systemctl restart mongod
+systemctl restart catalogue
