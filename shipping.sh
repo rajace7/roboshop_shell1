@@ -2,6 +2,8 @@ script=$(realpath "$0")
 script_path=$(dirname "$script")
 source ${script_path}/common.sh
 
+mysql_root_password=$1
+
 echo -e "\e[36m>>>>>>>>>>>>>>> INSTALL MAVEN >>>>>>>>>>>>\e[0m"
 yum install maven -y
 
@@ -39,4 +41,4 @@ echo -e "\e[36m>>>>>>>>>>>>>>> INSTALL MYSQL CLIENT >>>>>>>>>>>>\e[0m"
 yum install mysql -y
 
 echo -e "\e[36m>>>>>>>>>>>>>>> LOAD THE SCEHMA >>>>>>>>>>>>\e[0m"
-mysql -h mysql.rpadaladevops.online -uroot -pRoboShop@1 < /app/schema/shipping.sql
+mysql -h mysql.rpadaladevops.online -uroot -p${mysql_root_password} < /app/schema/shipping.sql
