@@ -23,7 +23,7 @@ echo -e "\e[36m>>>>>>>>>>>>>>> INSTALL THE DEPENDENCIES >>>>>>>>>>>>\e[0m"
 pip3.6 install -r requirements.txt
 
 echo -e "\e[36m>>>>>>>>>>>>>>> COPY SERVICE FILE TO SYSTEMD >>>>>>>>>>>>\e[0m"
-sed -i -e 's|rabbitmq_appuser_password|${rabbitmq_appuser_password}' ${script_path}/payment.service
+sed -i -e 's|rabbitmq_appuser_password|${rabbitmq_appuser_password}|' ${script_path}/payment.service
 cp ${script_path}/payment.service /etc/systemd/system/payment.service
 
 echo -e "\e[36m>>>>>>>>>>>>>>> RELOAD THE SERVICE >>>>>>>>>>>>\e[0m"
