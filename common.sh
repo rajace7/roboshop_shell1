@@ -1,7 +1,6 @@
 application_user=roboshop
 script=$(realpath "$0")
 script_path=$(dirname "$script")
-source ${script_path}/common.sh
 
 
 func_nodejs(){
@@ -19,7 +18,7 @@ rm -rf /app
 mkdir /app
 
 echo -e "\e[36m>>>>>>>>>>>>>>> DOWNLOAD THE APPLCATION CONTENT >>>>>>>>>>>>\e[0m"
-curl -L -o /tmp/${component_name}.zip https://roboshop-artifacts.s3.amazonaws.com/cart.zip
+curl -L -o /tmp/${component_name}.zip https://roboshop-artifacts.s3.amazonaws.com/${component_name}.zip
 cd /app
 
 echo -e "\e[36m>>>>>>>>>>>>>>> UNZIP APPLICATION CONTENT >>>>>>>>>>>>\e[0m"
