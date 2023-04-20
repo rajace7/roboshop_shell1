@@ -4,6 +4,7 @@ source ${script_path}/common.sh
 
 if [ -z "$rabbitmq_appuser_password" ]; then
   echo rabbitmq appuser password is missing
+  exit
   fi
 
 echo -e "\e[36m>>>>>>>>>>>>>>> INSTALL PYTHON 3.6 >>>>>>>>>>>>\e[0m"

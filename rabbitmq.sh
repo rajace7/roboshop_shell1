@@ -6,6 +6,7 @@ rabbitmq_appuser_password=$1
 
 if [ -z "$rabbitmq_appuser_password" ]; then
   echo rabbitmq appuser password is missing
+  exit
   fi
 
 echo -e "\e[36m>>>>>>>>>>>>>>> CONFIGURE EARLANG REPO >>>>>>>>>>>>\e[0m"
