@@ -6,6 +6,7 @@ source ${script_path}/common.sh
 component_name=catalogue
 func_nodejs
 
+
 echo -e "\e[36m>>>>>>>>>>>>>>> COPY REPO FILE TO YUM.REPO.D >>>>>>>>>>>>\e[0m"
 cp ${script_path}/mongod.repo /etc/yum.repos.d/mongod.repo
 
