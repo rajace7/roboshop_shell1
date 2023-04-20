@@ -9,17 +9,19 @@ print_head()
 
 schema_setup()
 {
-  echo -e "\e[36m>>>>>>>>>>>>>>> COPY REPO FILE TO YUM.REPO.D >>>>>>>>>>>>\e[0m"
+  if [ "$schema_setup" == mongo ]; then
+   print_head "COPY REPO FILE TO YUM.REPO.D"
   cp ${script_path}/mongod.repo /etc/yum.repos.d/mongod.repo
 
-  echo -e "\e[36m>>>>>>>>>>>>>>> INSTALL MONGOD CLIENT >>>>>>>>>>>>\e[0m"
+  print_head " INSTALL MONGOD CLIENT "
   yum install mongodb-org-shell -y
 
-  echo -e "\e[36m>>>>>>>>>>>>>>> LOAD THE SCEHMA >>>>>>>>>>>>\e[0m"
+ print_head " LOAD THE SCEHMA "
   mongo --host mongodb-dev.rpadaladevops.online </app/schema/catalogue.js
 
-  echo -e "\e[36m>>>>>>>>>>>>>>> RESTART THE SERVICE >>>>>>>>>>>>\e[0m"
+  print_head" RESTART THE SERVICE "
   systemctl restart catalogue
+  fi
 }
 
 func_nodejs(){
@@ -57,4 +59,6 @@ systemctl enable ${component_name}
 
 print_head  "RESTART THE SERVICE"
 systemctl restart ${component_name}
+
+schema_setup
 }
