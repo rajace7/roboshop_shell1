@@ -4,6 +4,10 @@ source ${script_path}/common.sh
 
 rabbitmq_appuser_password=$1
 
+if [ -z "$rabbitmq_appuser_password" ]; then
+  echo rabbitmq appuser password is missing
+  fi
+
 echo -e "\e[36m>>>>>>>>>>>>>>> CONFIGURE EARLANG REPO >>>>>>>>>>>>\e[0m"
 curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash
 
