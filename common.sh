@@ -50,7 +50,7 @@ func_app_prereq()
 {
 
   func_print_head " ADD APPLICATION USER "
-    useradd ${application_user} >/tmp/roboshop.log
+    useradd ${application_user} &>>/tmp/roboshop.log
     func_status_check
 
     func_print_head " CREATE APP DIRECTORY "
@@ -111,7 +111,7 @@ func_schema_setup
 func_java()
 {
   func_print_head " INSTALL MAVEN "
-  yum install maven -y >/tmp/roboshop.log
+  yum install maven -y &>>/tmp/roboshop.log
   func_status_check
 
   func_app_prereq
