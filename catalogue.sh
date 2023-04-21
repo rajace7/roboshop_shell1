@@ -4,8 +4,8 @@ source ${script_path}/common.sh
 
 
 component_name=catalogue
-schema_setup=mongo
 func_nodejs
+schema_setup=mongo
 
 
 
