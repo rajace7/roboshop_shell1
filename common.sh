@@ -95,7 +95,7 @@ func_java()
 
   func_print_head " INSTALL THE DEPENDENCIES "
   mvn clean package
-  mv target/shipping-1.0.jar shipping.jar
+  mv target/${component_name}-1.0.jar ${component_name}.jar
 
   func_schema_setup
   func_systemd_setup
