@@ -30,7 +30,7 @@ func_schema_setup()
     func_print_head " LOAD THE SCEHMA "
     mysql -h mysql.rpadaladevops.online -uroot -p${mysql_root_password} < /app/schema/${component_name}.sql
 
-     func_print_head" RESTART THE SERVICE "
+     func_print_head " RESTART THE SERVICE "
       systemctl restart ${component_name}
   fi
 
