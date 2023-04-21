@@ -2,6 +2,8 @@ application_user=roboshop
 script=$(realpath "$0")
 script_path=$(dirname "$script")
 
+log_file=/tmp/roboshop.log
+
 func_print_head()
 {
    echo -e "\e[35m>>>>>>>>>>>>>>> $1 >>>>>>>>>>>>\e[0m"
@@ -50,7 +52,7 @@ func_app_prereq()
 {
 
   func_print_head " ADD APPLICATION USER "
-    useradd ${application_user} &>>/tmp/roboshop.log
+    useradd ${application_user} &>>${log_file}
     func_status_check
 
     func_print_head " CREATE APP DIRECTORY "
@@ -111,7 +113,7 @@ func_schema_setup
 func_java()
 {
   func_print_head " INSTALL MAVEN "
-  yum install maven -y &>>/tmp/roboshop.log
+  yum install maven -y &>>${log_file}
   func_status_check
 
   func_app_prereq
