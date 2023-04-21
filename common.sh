@@ -53,7 +53,10 @@ func_app_prereq()
 {
 
   func_print_head " ADD APPLICATION USER "
+  id ${application_user} &>>${log_file}
+  if [ $? -ne 0 ]; then
     useradd ${application_user} &>>${log_file}
+  fi
     func_status_check
 
     func_print_head " CREATE APP DIRECTORY "
