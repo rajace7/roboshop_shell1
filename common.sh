@@ -110,7 +110,7 @@ func_schema_setup
 func_java()
 {
   func_print_head " INSTALL MAVEN "
-  yum install maven -y
+  yum install maven -y >/tmp/roboshop.og
   func_status_check
 
   func_app_prereq
