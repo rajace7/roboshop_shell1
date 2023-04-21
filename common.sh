@@ -41,6 +41,7 @@ func_status_check()
     echo -e "\e[31m SUCCESS\e[0m"
   else
     echo -e "\e[32m FAILURE \e[0m"
+    exit
   fi
 }
 
