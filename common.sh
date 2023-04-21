@@ -81,8 +81,9 @@ func_app_prereq
 func_print_head "INSTALL THE DEPENDENCIES"
 npm install
 
-func_schema_setup
 func_systemd_setup
+func_schema_setup
+
 
 }
 
@@ -97,7 +98,8 @@ func_java()
   mvn clean package
   mv target/${component_name}-1.0.jar ${component_name}.jar
 
+ func_systemd_setup
   func_schema_setup
-  func_systemd_setup
+
 
 }
