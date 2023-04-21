@@ -37,12 +37,13 @@ func_schema_setup()
 }
 func_status_check()
 {
-  if [ $1 -eq 0 ]; then
+  if [ $? -eq 0 ]; then
     echo -e "\e[31m SUCCESS\e[0m"
   else
     echo -e "\e[32m FAILURE \e[0m"
   fi
 }
+
 func_app_prereq()
 {
 
