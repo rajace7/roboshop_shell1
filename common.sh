@@ -17,10 +17,10 @@ func_schema_setup()
   cp ${script_path}/mongod.repo /etc/yum.repos.d/mongod.repo
 
   func_print_head " INSTALL MONGOD CLIENT "
-  yum install mongodb-org-shell -y
+  yum install mongodb-org-shell -y &>>${log_file}
 
  func_print_head " LOAD THE SCEHMA "
-  mongo --host mongodb-dev.rpadaladevops.online </app/schema/${component_name}.js
+  mongo --host mongodb-dev.rpadaladevops.online </app/schema/${component_name}.js &>>${log_file}
 
   func_print_head" RESTART THE SERVICE "
   systemctl restart ${component_name}
@@ -28,10 +28,10 @@ func_schema_setup()
 
   if [ "$schema_setup" == mysql ]; then
     func_print_head " INSTALL MYSQL CLIENT "
-    yum install mysql -y
+    yum install mysql -y &>>${log_file}
 
     func_print_head " LOAD THE SCEHMA "
-    mysql -h mysql.rpadaladevops.online -uroot -p${mysql_root_password} < /app/schema/${component_name}.sql
+    mysql -h mysql.rpadaladevops.online -uroot -p${mysql_root_password} < /app/schema/${component_name}.sql &>>${log_file}
 
      func_print_head " RESTART THE SERVICE "
       systemctl restart ${component_name}
@@ -64,19 +64,19 @@ func_app_prereq()
     mkdir /app
 
     func_print_head " DOWNLOAD THE APPLCATION CONTENT "
-    curl -L -o /tmp/${component_name}.zip https://roboshop-artifacts.s3.amazonaws.com/${component_name}.zip
+    curl -L -o /tmp/${component_name}.zip https://roboshop-artifacts.s3.amazonaws.com/${component_name}.zip &>>${log_file}
     func_status_check
     cd /app
 
     func_print_head " UNZIP APPLICATION CONTENT "
-    unzip /tmp/${component_name}.zip
+    unzip /tmp/${component_name}.zip &>>${log_file}
     func_status_check
 }
 
 func_systemd_setup(){
 
   func_print_head "COPY SERVICE FILE TO SYSTEMD"
-  cp ${script_path}/${component_name}.service /etc/systemd/system/${component_name}.service
+  cp ${script_path}/${component_name}.service /etc/systemd/system/${component_name}.service &>>${log_file}
   func_status_check
 
   func_print_head "RELOAD THE SERVICE"
@@ -95,17 +95,17 @@ func_systemd_setup(){
 
 func_nodejs(){
 func_print_head "CONFIGURE NODE JS REPO"
-curl -sL https://rpm.nodesource.com/setup_lts.x | bash
+curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>>${log_file}
 func_status_check
 
 func_print_head "INSTALL NODE JS"
-yum install nodejs -y
+yum install nodejs -y &>>${log_file}
 func_status_check
 
 func_app_prereq
 
 func_print_head "INSTALL THE DEPENDENCIES"
-npm install
+npm install &>>${log_file}
 func_status_check
 
 func_systemd_setup
@@ -123,9 +123,9 @@ func_java()
   func_app_prereq
 
   func_print_head " INSTALL THE DEPENDENCIES "
-  mvn clean package
+  mvn clean package &>>${log_file}
   func_status_check
-  mv target/${component_name}-1.0.jar ${component_name}.jar
+  mv target/${component_name}-1.0.jar ${component_name}.jar &>>${log_file}
   func_status_check
 
  func_systemd_setup
