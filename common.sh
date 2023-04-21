@@ -45,9 +45,10 @@ func_status_check()
 }
 func_app_prereq()
 {
+
   func_print_head " ADD APPLICATION USER "
     useradd ${application_user}
-    func_status_check()
+    func_status_check
 
     func_print_head " CREATE APP DIRECTORY "
     rm -rf /app
@@ -55,48 +56,48 @@ func_app_prereq()
 
     func_print_head " DOWNLOAD THE APPLCATION CONTENT "
     curl -L -o /tmp/${component_name}.zip https://roboshop-artifacts.s3.amazonaws.com/${component_name}.zip
-    func_status_check()
+    func_status_check
     cd /app
 
     func_print_head " UNZIP APPLICATION CONTENT "
     unzip /tmp/${component_name}.zip
-    func_status_check()
+    func_status_check
 }
 
 func_systemd_setup(){
 
   func_print_head "COPY SERVICE FILE TO SYSTEMD"
   cp ${script_path}/${component_name}.service /etc/systemd/system/${component_name}.service
-  func_status_check()
+  func_status_check
 
   func_print_head "RELOAD THE SERVICE"
   systemctl daemon-reload
-  func_status_check()
+  func_status_check
 
   func_print_head "ENABLE THE SERVICE"
   systemctl enable ${component_name}
-  func_status_check()
+  func_status_check
 
   func_print_head  "RESTART THE SERVICE"
   systemctl restart ${component_name}
-  func_status_check()
+  func_status_check
 
 }
 
 func_nodejs(){
 func_print_head "CONFIGURE NODE JS REPO"
 curl -sL https://rpm.nodesource.com/setup_lts.x | bash
-func_status_check()
+func_status_check
 
 func_print_head "INSTALL NODE JS"
 yum install nodejs -y
-func_status_check()
+func_status_check
 
 func_app_prereq
 
 func_print_head "INSTALL THE DEPENDENCIES"
 npm install
-func_status_check()
+func_status_check
 
 func_systemd_setup
 func_schema_setup
@@ -108,15 +109,15 @@ func_java()
 {
   func_print_head " INSTALL MAVEN "
   yum install maven -y
-  func_status_check()
+  func_status_check
 
   func_app_prereq
 
   func_print_head " INSTALL THE DEPENDENCIES "
   mvn clean package
-  func_status_check()
+  func_status_check
   mv target/${component_name}-1.0.jar ${component_name}.jar
-  func_status_check()
+  func_status_check
 
  func_systemd_setup
   func_schema_setup
