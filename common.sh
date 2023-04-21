@@ -32,7 +32,7 @@ func_schema_setup()
 
      func_print_head" RESTART THE SERVICE "
       systemctl restart ${component_name}
-      fi
+  fi
 
 }
 
@@ -81,13 +81,12 @@ func_app_prereq
 func_print_head "INSTALL THE DEPENDENCIES"
 npm install
 
+func_schema_setup
 func_systemd_setup
 
-
-func_schema_setup
 }
 
-funct_java()
+func_java()
 {
   func_print_head " INSTALL MAVEN "
   yum install maven -y
@@ -98,7 +97,7 @@ funct_java()
   mvn clean package
   mv target/shipping-1.0.jar shipping.jar
 
-  func_systemd_setup
   func_schema_setup
+  func_systemd_setup
 
 }
