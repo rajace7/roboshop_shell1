@@ -2,26 +2,34 @@ script=$(realpath "$0")
 script_path=$(dirname "$script")
 source ${script_path}/common.sh
 
-echo -e "\e[36m>>>>>>>>>>>>>>> CONFIGURE REDIS  REPO >>>>>>>>>>>>\e[0m"
-yum install https://rpms.remirepo.net/enterprise/remi-release-8.rpm -y
+func_print_head " CONFIGURE REDIS  REPO "
+yum install https://rpms.remirepo.net/enterprise/remi-release-8.rpm -y -y &>>${log_file}
+func_status_check
 
-echo -e "\e[36m>>>>>>>>>>>>>>> DISABLE REDIS 8 VERSION >>>>>>>>>>>>\e[0m"
-dnf module enable redis:remi-6.2 -y
+func_print_head " DISABLE REDIS 8 VERSION "
+dnf module enable redis:remi-6.2 -y -y &>>${log_file}
+func_status_check
 
-echo -e "\e[36m>>>>>>>>>>>>>>> INSTALL REDIS >>>>>>>>>>>>\e[0m"
-yum install redis -y
+func_print_head " INSTALL REDIS "
+yum install redis -y -y &>>${log_file}
+func_status_check
 
-echo -e "\e[36m>>>>>>>>>>>>>>> CHECK IP ADDRESS >>>>>>>>>>>>\e[0m"
-netstat -lntp
+func_print_head " CHECK IP ADDRESS "
+netstat -lntp -y &>>${log_file}
+func_status_check
 
-echo -e "\e[36m>>>>>>>>>>>>>>> CHANGE IP ADDRESS >>>>>>>>>>>>\e[0m"
-sed -i -e 's|127.0.0.1|0.0.0.0|' /etc/redis.conf /etc/redis/redis.conf
+func_print_head " CHANGE LOCAL IP ADDRESS TO GLOBAL IP ADDRESS "
+sed -i -e 's|127.0.0.1|0.0.0.0|' /etc/redis.conf /etc/redis/redis.conf -y &>>${log_file}
+func_status_check
 
-echo -e "\e[36m>>>>>>>>>>>>>>> ENABLE THE SERVICE >>>>>>>>>>>>\e[0m"
-systemctl enable redis
+func_print_head "ENABLE THE SERVICE "
+systemctl enable redis -y &>>${log_file}
+func_status_check
 
-echo -e "\e[36m>>>>>>>>>>>>>>> RESTART THE SERVICE >>>>>>>>>>>>\e[0m"
-systemctl restart redis
+func_print_head " RESTART THE SERVICE "
+systemctl restart redis -y &>>${log_file}
+func_status_check
 
-echo -e "\e[36m>>>>>>>>>>>>>>> CHECK NEW IP ADDRESS >>>>>>>>>>>>\e[0m"
-netstat -lntp
+func_print_head " CHECK NEW IP ADDRESS "
+netstat -lntp -y &>>${log_file}
+func_status_check
