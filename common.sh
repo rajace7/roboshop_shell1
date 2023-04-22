@@ -133,3 +133,25 @@ func_java()
 
 
 }
+
+func_python()
+{
+
+   func_print_head "install python3.6"
+  yum install python36 gcc python3-devel -y &>>${log_file}
+ func_status_check
+
+ func_appprereq
+
+   func_print_head " INSTALL THE DEPENDENCIES"
+  pip3.6 install -r requirements.txt &>>${log_file}
+   func_status_check
+
+
+
+  sed -i -e 's|rabbitmq_appuser_password|${rabbitmq_appuser_password}|' ${script_path}/${component_name}.service  &>>${log_file}
+    func_status_check
+
+
+  func_systemd
+}
