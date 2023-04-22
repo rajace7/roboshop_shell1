@@ -13,10 +13,10 @@ func_stat_check
 func_printhead "enable the mongod"
 systemctl enable mongod &>>${log_file}
 
-func_printhead "start the mongod"
+func_printhead"start the mongod"
 systemctl start mongod
 
-func_printhead "check the local ip address"
+func_printhead"check the local ip address"
 netstat -lntp &>>${log_file}
 
 func_printhead "change  the local ip address to global ip address"
