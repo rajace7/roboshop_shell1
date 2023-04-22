@@ -2,22 +2,35 @@ script=$(realpath "$0")
 script_path=$(dirname "$script")
 source ${script_path}/common.sh
 
-echo -e "\e[36m>>>>>>>>>>>>>>> DISABLE MYSQL 8 >>>>>>>>>>>>\e[0m"
-dnf module disable mysql -y
+mysql_root_password=$1
 
-echo -e "\e[36m>>>>>>>>>>>>>>> COPY REPO FILE TO YUM.REPO.D >>>>>>>>>>>>\e[0m"
-cp ${script_path}/mysql.repo /etc/yum.repos.d/mysql.repo
+if [ -z  "$mysql_root_password" ]; then
+  echo "sql root password is missing"
+  exit
+fi
 
-echo -e "\e[36m>>>>>>>>>>>>>>> INSTALL MYSQL >>>>>>>>>>>>\e[0m"
-yum install mysql-community-server -y
+func_print_head " DISABLE MYSQL 8 "
+dnf module disable mysql -y &>>${log_file}
+func_status_check
 
-echo -e "\e[36m>>>>>>>>>>>>>>> ENABLE THE SERVICE >>>>>>>>>>>>\e[0m"
-systemctl enable mysqld
+func_print_head "COPY REPO FILE TO YUM.REPO.D"
+cp ${script_path}/mysql.repo /etc/yum.repos.d/mysql.repo &>>${log_file}
+func_status_check
 
-echo -e "\e[36m>>>>>>>>>>>>>>> RESTART THE SERVICE >>>>>>>>>>>>\e[0m"
-systemctl start mysqld
+func_print_head " INSTALL MYSQL "
+yum install mysql-community-server -y &>>${log_file}
+func_status_check
 
-echo -e "\e[36m>>>>>>>>>>>>>>> SET MYSQL PASSWORD >>>>>>>>>>>>\e[0m"
-mysql_secure_installation --set-root-pass RoboShop@1
+func_print_head "ENABLE THE SERVICE "
+systemctl enable mysqld &>>${log_file}
+func_status_check
 
-mysql -uroot -pRoboShop@1
+func_print_head " RESTART THE SERVICE "
+systemctl restart mysqld &>>${log_file}
+func_status_check
+
+func_print_head" SET MYSQL PASSWORD "
+mysql_secure_installation --set-root-pass ${mysql_root_password} &>>${log_file}
+func_status_check
+
+#mysql -uroot -p${mysql_root_password}
