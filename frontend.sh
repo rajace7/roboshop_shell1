@@ -2,28 +2,38 @@ script=$(realpath "$0")
 script_path=$(dirname "$script")
 source ${script_path}/common.sh
 
-echo -e "\e[36m>>>>>>>>>>>>>>> INSTALL NGINX WEBSERVER>>>>>>>>>>>>\e[0m"
-yum install nginx -y
+component_name=frontend
 
-echo -e "\e[36m>>>>>>>>>>>>>>> ENABLE NGINX WEBSERVER >>>>>>>>>>>>\e[0m"
-systemctl enable nginx
+func_printhead "INSTALL NGINX WEBSERVER"
+yum install nginx -y &>>${log_file}
+func_stat_check
 
-echo -e "\e[36m>>>>>>>>>>>>>>> RESTART NGINX WEBSERVER >>>>>>>>>>>>\e[0m"
-systemctl start nginx
+func_printhead " ENABLE NGINX WEBSERVER "
+systemctl enable nginx &>>${log_file}
+func_stat_check
 
-echo -e "\e[36m>>>>>>>>>>>>>>> REMOVE DEFAULT CONTENT ON WEBSERVER>>>>>>>>>>>>\e[0m"
-rm -rf /usr/share/nginx/html/*
+func_printhead " RESTART NGINX WEBSERVER "
+systemctl start nginx &>>${log_file}
+func_stat_check
 
-echo -e "\e[36m>>>>>>>>>>>>>>> DOWNLOAD THE APP CONTENT >>>>>>>>>>>>\e[0m"
-curl -o /tmp/frontend.zip https://roboshop-artifacts.s3.amazonaws.com/frontend.zip
+func_printhead " REMOVE DEFAULT CONTENT ON WEBSERVER"
+rm -rf /usr/share/nginx/html/* &>>${log_file}
+func_stat_check
+
+func_printhead " DOWNLOAD THE APP CONTENT "
+curl -o /tmp/${component_name}.zip https://roboshop-artifacts.s3.amazonaws.com/${component_name}.zip &>>${log_file}
+func_stat_check
 
 cd /usr/share/nginx/html
 
-echo -e "\e[36m>>>>>>>>>>>>>>> UNZIP THE APP CONTENT >>>>>>>>>>>>\e[0m"
-unzip /tmp/frontend.zip
+func_printhead " UNZIP THE APP CONTENT "
+unzip /tmp/${component_name}.zip &>>${log_file}
+func_stat_check
 
-echo -e "\e[36m>>>>>>>>>>>>>>> COPY REVERSE PROXY FILE TO DEFAULT.D FOLDER >>>>>>>>>>>>\e[0m"
-cp ${script_path}/roboshop.conf /etc/nginx/default.d/roboshop.conf
+func_printhead " COPY REVERSE PROXY FILE TO DEFAULT.D FOLDER m"
+cp ${script_path}/roboshop.conf /etc/nginx/default.d/roboshop.conf &>>${log_file}
+func_stat_check
 
-echo -e "\e[36m>>>>>>>>>>>>>>> RESTART NGINX WEBSERVER >>>>>>>>>>>>\e[0m"
-systemctl restart nginx
+func_printhead "  RESTART NGINX WEBSERVER "
+systemctl restart nginx &>>${log_file}
+func_stat_check
