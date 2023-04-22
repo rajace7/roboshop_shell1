@@ -14,10 +14,6 @@ func_print_head " INSTALL REDIS "
 yum install redis -y -y &>>${log_file}
 func_status_check
 
-#func_print_head " CHECK IP ADDRESS "
-#netstat -lntp -y &>>${log_file}
-#func_status_check
-
 func_print_head " CHANGE LOCAL IP ADDRESS TO GLOBAL IP ADDRESS "
 sed -i -e 's|127.0.0.1|0.0.0.0|' /etc/redis.conf /etc/redis/redis.conf -y &>>${log_file}
 func_status_check
@@ -30,6 +26,4 @@ func_print_head " RESTART THE SERVICE "
 systemctl restart redis -y &>>${log_file}
 func_status_check
 
-#func_print_head " CHECK NEW IP ADDRESS "
-#netstat -lntp -y &>>${log_file}
-#func_status_check
+
