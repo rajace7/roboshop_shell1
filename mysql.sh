@@ -29,7 +29,7 @@ func_print_head " RESTART THE SERVICE "
 systemctl restart mysqld &>>${log_file}
 func_status_check
 
-func_print_head" SET MYSQL PASSWORD "
+func_print_head " SET MYSQL PASSWORD "
 mysql_secure_installation --set-root-pass ${mysql_root_password} &>>${log_file}
 func_status_check
 
