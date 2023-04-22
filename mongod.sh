@@ -2,26 +2,29 @@ script=$(realpath "$0")
 script_path=$(dirname "$script")
 source ${script_path}/common.sh
 
-echo -e "\e[36m>>>>>>>>>>>>>>> COPY REPO FILE TO YUM.REPO.D >>>>>>>>>>>>\e[0m"
-cp mongod.repo /etc/yum.repos.d/mongod.repo
+func_printhead "configure mongod repo"
+cp mongod.repo /etc/yum.repos.d/mongod.repo &>>${log_file}
+func_stat_check
 
-echo -e "\e[36m>>>>>>>>>>>>>>> INSTALL MONGODB >>>>>>>>>>>>\e[0m"
-yum install mongodb-org -y
+func_printhead "install mongodb server"
+yum install mongodb-org -y &>>${log_file}
+func_stat_check
 
-echo -e "\e[36m>>>>>>>>>>>>>>> ENABLE THE SERVICE >>>>>>>>>>>>\e[0m"
-systemctl enable mongod
+func_printhead "enable the mongod"
+systemctl enable mongod &>>${log_file}
 
-echo -e "\e[36m>>>>>>>>>>>>>>> RESTART THE SERVICE >>>>>>>>>>>>\e[0m"
+func_printhead "start the mongod"
 systemctl start mongod
 
-echo -e "\e[36m>>>>>>>>>>>>>>> CHECK LOCAL IP ADDRESS >>>>>>>>>>>>\e[0m"
-netstat -lntp
+func_printhead "check the local ip address"
+netstat -lntp &>>${log_file}
 
-echo -e "\e[36m>>>>>>>>>>>>>>> CHANGE IT TO GLOBAL IP ADDRESS >>>>>>>>>>>>\e[0m"
-sed -i -e 's|127.0.0.1|0.0.0.0|' /etc/mongod.conf
+func_printhead "change  the local ip address to global ip address"
+sed -i -e 's|127.0.0.1|0.0.0.0|' /etc/mongod.conf &>>${log_file}
+func_stat_check
 
-echo -e "\e[36m>>>>>>>>>>>>>>> RESTART THE SERVICE >>>>>>>>>>>>\e[0m"
+func_printhead "restart the mongod"
 systemctl restart mongod
 
-echo -e "\e[36m>>>>>>>>>>>>>>> CHECK GLOBAL IP ADDRESS >>>>>>>>>>>>\e[0m"
-netstat -lntp
+func_printhead "check the global  ip address"
+netstat -lntp &>>${log_file}
