@@ -22,7 +22,7 @@ func_schema_setup()
  func_print_head " LOAD THE SCEHMA "
   mongo --host mongodb-dev.rpadaladevops.online </app/schema/${component_name}.js &>>${log_file}
 
-  func_print_head" RESTART THE SERVICE "
+  func_print_head " RESTART THE SERVICE "
   systemctl restart ${component_name}
   fi
 
