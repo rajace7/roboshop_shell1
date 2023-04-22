@@ -7,26 +7,33 @@ rabbitmq_appuser_password=$1
 if [ -z "$rabbitmq_appuser_password" ]; then
   echo rabbitmq appuser password is missing
   exit
-  fi
+fi
 
-echo -e "\e[36m>>>>>>>>>>>>>>> CONFIGURE EARLANG REPO >>>>>>>>>>>>\e[0m"
-curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash
+func_print_head " CONFIGURE EARLANG REPO "
+curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash &>>${log_file}
+func_status_check
 
-echo -e "\e[36m>>>>>>>>>>>>>>> INSTALL ERLANG >>>>>>>>>>>>\e[0m"
-yum install erlang -y
+func_print_head " INSTALL ERLANG "
+yum install erlang -y &>>${log_file}
+func_status_check
 
-echo -e "\e[36m>>>>>>>>>>>>>>> CONFIGURE RABBITMQ REPO >>>>>>>>>>>>\e[0m"
-curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | bash
+func_print_head "\ CONFIGURE RABBITMQ REPO "
+curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | bash &>>${log_file}
+func_status_check
 
-echo -e "\e[36m>>>>>>>>>>>>>>> INSTALL RABBITMQ >>>>>>>>>>>>\e[0m"
-yum install rabbitmq-server -y
+func_print_head " INSTALL RABBITMQ "
+yum install rabbitmq-server -y &>>${log_file}
+func_status_check
 
-echo -e "\e[36m>>>>>>>>>>>>>>> ENABLE THE SERVICE >>>>>>>>>>>>\e[0m"
-systemctl enable rabbitmq-server
+func_print_head "ENABLE THE SERVICE "
+systemctl enable rabbitmq-server &>>${log_file}
+func_status_check
 
-echo -e "\e[36m>>>>>>>>>>>>>>> RESTART THE SERVICE >>>>>>>>>>>>\e[0m"
-systemctl start rabbitmq-server
+func_print_head " RESTART THE SERVICE "
+systemctl start rabbitmq-server &>>${log_file}
+func_status_check
 
-echo -e "\e[36m>>>>>>>>>>>>>>> ADD USER IN RABBITMQ >>>>>>>>>>>>\e[0m"
-rabbitmqctl add_user roboshop ${rabbitmq_appuser_password}
-rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*"
+func_print_head " ADD USER IN RABBITMQ "
+rabbitmqctl add_user roboshop ${rabbitmq_appuser_password} &>>${log_file}
+rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*" &>>${log_file}
+func_status_check
