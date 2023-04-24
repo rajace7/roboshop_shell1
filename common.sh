@@ -27,7 +27,7 @@ func_schema_setup()
 
   func_print_head " RESTART THE SERVICE "
   systemctl restart ${component_name} &>>${log_file}
-  func_status_check
+  func_status_check ?1
   fi
 
   if [ "$schema_setup" == mysql ]; then
