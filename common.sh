@@ -13,28 +13,35 @@ func_print_head()
 func_schema_setup()
 {
   if [ "$schema_setup" == mongo ]; then
-   func_print_head "COPY REPO FILE TO YUM.REPO.D"
+   func_print_head "COPY REPO FILE TO YUM.REPO.D" &>>${log_file}
   cp ${script_path}/mongod.repo /etc/yum.repos.d/mongod.repo
+  func_status_check
 
   func_print_head " INSTALL MONGOD CLIENT "
   yum install mongodb-org-shell -y &>>${log_file}
+  func_status_check
 
  func_print_head " LOAD THE SCEHMA "
   mongo --host mongodb-dev.rpadaladevops.online </app/schema/${component_name}.js &>>${log_file}
+  func_status_check
 
   func_print_head " RESTART THE SERVICE "
-  systemctl restart ${component_name}
+  systemctl restart ${component_name} &>>${log_file}
+  func_status_check
   fi
 
   if [ "$schema_setup" == mysql ]; then
     func_print_head " INSTALL MYSQL CLIENT "
     yum install mysql -y &>>${log_file}
+    func_status_check
 
     func_print_head " LOAD THE SCEHMA "
     mysql -h mysql-dev.rpadaladevops.online -uroot -p${mysql_root_password} < /app/schema/${component_name}.sql &>>${log_file}
+    func_status_check
 
      func_print_head " RESTART THE SERVICE "
       systemctl restart ${component_name}
+      func_status_check
   fi
 
 }
