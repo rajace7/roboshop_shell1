@@ -11,5 +11,3 @@ if [ -z "$rabbitmq_appuser_password" ]; then
 
 component_name=payment
 func_python
-
-

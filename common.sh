@@ -27,7 +27,7 @@ func_schema_setup()
 
   func_print_head " RESTART THE SERVICE "
   systemctl restart ${component_name} &>>${log_file}
-  func_status_check ?1
+  func_status_check ?1cat
   fi
 
   if [ "$schema_setup" == mysql ]; then
@@ -154,7 +154,7 @@ func_python()
   func_status_check
 
   func_print_head " update rabbitmq password in systemd service file"
-  sed -i -e 's|rabbitmq_appuser_password|${rabbitmq_appuser_password}|' ${script_path}/${component_name}.service  &>>${log_file}
+  sed -i -e "s|rabbitmq_appuser_password|${rabbitmq_appuser_password}|" ${script_path}/${component_name}.service  &>>${log_file}
   func_status_check
 
   func_systemd_setup
