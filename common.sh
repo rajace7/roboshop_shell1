@@ -31,7 +31,7 @@ func_schema_setup()
     yum install mysql -y &>>${log_file}
 
     func_print_head " LOAD THE SCEHMA "
-    mysql -h mysql.rpadaladevops.online -uroot -p${mysql_root_password} < /app/schema/${component_name}.sql &>>${log_file}
+    mysql -h mysql-dev.rpadaladevops.online -uroot -p${mysql_root_password} < /app/schema/${component_name}.sql &>>${log_file}
 
      func_print_head " RESTART THE SERVICE "
       systemctl restart ${component_name}
